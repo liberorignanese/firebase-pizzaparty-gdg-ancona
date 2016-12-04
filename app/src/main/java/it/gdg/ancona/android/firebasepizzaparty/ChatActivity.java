@@ -90,11 +90,12 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
             for (String key : getIntent().getExtras().keySet()) {
                 if(key.equals("message")){
                     String message = getIntent().getExtras().getString(key);
+                    FirebaseCrash.log("ChatActivity_notification_send_message");
                     ChatItem.send(mReference, "RINO", message);
                 }
             }
         }
-
+        FirebaseCrash.log("ChatActivity_onCreate");
     }
 
 
@@ -102,6 +103,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     private static final String LOADING_PHRASE_CONFIG_KEY = "loading_phrase";
     private static final String STATUS_BAR_COLOR_KEY = "status_bar_color";
     private void fetchRemoteConfigValuesValues() {
+        FirebaseCrash.log("ChatActivity_fetchRemoteConfigValuesValues");
         String loading_phrase = mFirebaseRemoteConfig.getString(LOADING_PHRASE_CONFIG_KEY);
         Toast.makeText(ChatActivity.this, loading_phrase, Toast.LENGTH_SHORT).show();
 
@@ -129,6 +131,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        FirebaseCrash.log("ChatActivity_onChildAdded");
         ChatItem chatItem = ChatItem.loadFromDataSnaphot(dataSnapshot);
         String key = dataSnapshot.getKey();
         mAdapter.addMessage(key, chatItem);
@@ -156,6 +159,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
     }
 
     public void onClickSendMessage(View view) {
+        FirebaseCrash.log("ChatActivity_onClickSendMessage");
         String txt = mNewMessage.getText().toString();
         if(!txt.equals("")){
             ChatItem.send(mReference, "RINO", txt);
@@ -165,6 +169,7 @@ public class ChatActivity extends AppCompatActivity implements ChildEventListene
 
     @Override
     public void onComplete(@NonNull Task<Void> task) {
+        FirebaseCrash.log("ChatActivity_RemoteConfig_onComplete");
         if (task.isSuccessful()) {
             Toast.makeText(ChatActivity.this, "Fetch Succeeded",
                     Toast.LENGTH_SHORT).show();

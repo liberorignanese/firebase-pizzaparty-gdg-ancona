@@ -2,6 +2,7 @@ package it.gdg.ancona.android.firebasepizzaparty.utils;
 
 import android.os.Build;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
@@ -45,6 +46,7 @@ public class ChatItem {
     }
 
     public static void send(DatabaseReference reference, String username, String message){
+        FirebaseCrash.log("ChatActivity_ChatItem_send");
         ChatItem chatItem = new ChatItem(username, message);
         reference.push().setValue(chatItem);
     }
