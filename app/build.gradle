@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+/*
+    google-services.json is not included in this repo...include your google-services.json to let the app works
+ */
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
