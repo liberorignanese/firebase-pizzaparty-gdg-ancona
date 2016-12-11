@@ -36,7 +36,7 @@ public class ChatItem {
 
     public String getDate() {
         Date date = new Date(time);
-        SimpleDateFormat fmtOut = new SimpleDateFormat("KK:mm", Locale.getDefault());
+        SimpleDateFormat fmtOut = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return fmtOut.format(date);
     }
 
