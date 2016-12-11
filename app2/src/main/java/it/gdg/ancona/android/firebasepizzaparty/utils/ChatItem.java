@@ -2,6 +2,8 @@ package it.gdg.ancona.android.firebasepizzaparty.utils;
 
 import android.os.Build;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
@@ -39,7 +41,23 @@ public class ChatItem {
         this.user.uid = uid;
     }
 
+    public boolean itsMe(FirebaseUser currentUser) {
+        return currentUser.getUid().equals(this.user.uid);
+    }
+
     public static ChatItem loadFromDataSnaphot(DataSnapshot dataSnapshot) {
         return dataSnapshot.getValue(ChatItem.class);
     }
+
+    public void send(DatabaseReference reference) {
+        reference.push().setValue(this);
+    }
+
+
+    public String getDate() {
+        Date date = new Date(time);
+        SimpleDateFormat fmtOut = new SimpleDateFormat("KK:mm", Locale.getDefault());
+        return fmtOut.format(date);
+    }
+
 }

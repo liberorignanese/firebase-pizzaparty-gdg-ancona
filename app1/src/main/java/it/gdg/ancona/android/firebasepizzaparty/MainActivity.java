@@ -42,29 +42,22 @@ public class MainActivity extends FireBaseChatActivity implements ChildEventList
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        int i = 0;
-        i++;
 
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-        int i = 0;
-        i++;
 
     }
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-        int i = 0;
-        i++;
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
 
-        int i = 0;
-        i++;
     }
+
 }
