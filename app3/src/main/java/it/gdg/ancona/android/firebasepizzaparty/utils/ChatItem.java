@@ -2,6 +2,7 @@ package it.gdg.ancona.android.firebasepizzaparty.utils;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +27,17 @@ public class ChatItem {
         super();
     }
 
+    public ChatItem(String message, FirebaseUser currentUser) {
+        super();
+        this.message = message;
+        this.time = System.currentTimeMillis();
+        this.user = new ChatUser();
+        this.user.displayName = currentUser.getDisplayName();
+        this.user.email = currentUser.getEmail();
+        this.user.photoURL = currentUser.getPhotoUrl().toString();
+        this.user.uid = currentUser.getUid();
+    }
+
     public boolean itsMe(FirebaseUser currentUser) {
         return currentUser.getUid().equals(this.user.uid);
     }
@@ -33,6 +45,11 @@ public class ChatItem {
     public static ChatItem loadFromDataSnaphot(DataSnapshot dataSnapshot) {
         return dataSnapshot.getValue(ChatItem.class);
     }
+
+    public void send(DatabaseReference reference) {
+        reference.push().setValue(this);
+    }
+
 
     public String getDate() {
         Date date = new Date(time);
