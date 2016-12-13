@@ -85,6 +85,21 @@ public abstract class FireBaseChatActivity extends AppCompatActivity implements 
 
         mNewMessage = (EditText)findViewById(R.id.new_message);
 
+        if (getIntent().getExtras() != null) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if(currentUser != null){
+                for (String key : getIntent().getExtras().keySet()) {
+                    if(key.equals("message")){
+                        String message = getIntent().getExtras().getString(key);
+                        ChatItem chatItem = new ChatItem(message, currentUser);
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("chat");
+                        chatItem.send(reference);
+                    }
+                }
+            }
+        }
+
+
     }
 
     private void initDatabase(FirebaseUser currentUser){

@@ -1,33 +1,56 @@
 package it.gdg.ancona.android.firebasepizzaparty;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
+import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
-import it.gdg.ancona.android.firebasepizzaparty.utils.ChatItem;
+public class MainActivity extends FireBaseChatActivity implements OnCompleteListener<Void> {
 
-public class MainActivity extends FireBaseChatActivity {
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent().getExtras() != null) {
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            if(currentUser != null){
-                for (String key : getIntent().getExtras().keySet()) {
-                    if(key.equals("message")){
-                        String message = getIntent().getExtras().getString(key);
-                        ChatItem chatItem = new ChatItem(message, currentUser);
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("chat");
-                        chatItem.send(reference);
-                    }
-                }
-            }
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        fetchRemoteConfigValuesValues();
+
+    }
+
+    private void fetchRemoteConfigValuesValues() {
+        long cacheExpiration = 3600;
+        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+            cacheExpiration = 0;
         }
+        mFirebaseRemoteConfig.fetch(cacheExpiration).addOnCompleteListener(MainActivity.this, MainActivity.this);
+    }
+
+
+    @Override
+    public void onComplete(@NonNull Task<Void> task) {
+        if (task.isSuccessful()) {
+            mFirebaseRemoteConfig.activateFetched();
+        } else {
+            //TODO
+        }
+        setTheColor();
+    }
+
+    private static final String THE_COLOR_KEY = "the_color";
+    private void setTheColor() {
+        String the_color_value = mFirebaseRemoteConfig.getString(THE_COLOR_KEY);
+        int the_color = Color.parseColor(the_color_value);
+        findViewById(R.id.send_layout).setBackgroundColor(the_color);
     }
 
 }

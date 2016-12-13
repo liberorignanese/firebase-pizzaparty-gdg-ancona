@@ -47,7 +47,8 @@ dependencies {
     //FIREBASE MESSAGING (NOTIFICATION)
     compile 'com.google.firebase:firebase-messaging:10.0.1'
 
-
+    //FIREBASE REMOTE CONFIG
+    compile 'com.google.firebase:firebase-config:10.0.1'
 
     testCompile 'junit:junit:4.12'
 }
