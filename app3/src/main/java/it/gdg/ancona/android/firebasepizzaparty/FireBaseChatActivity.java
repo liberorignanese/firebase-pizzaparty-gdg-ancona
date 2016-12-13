@@ -54,7 +54,7 @@ public abstract class FireBaseChatActivity extends AppCompatActivity implements 
     private GoogleApiClient mGoogleApiClient;
     protected DatabaseReference mReference;
     private LinearLayoutManager mLayouManager;
-    private MainActivity.ChatAdapter mAdapter;
+    private ChatAdapter mAdapter;
 
 
     @Override
@@ -78,7 +78,7 @@ public abstract class FireBaseChatActivity extends AppCompatActivity implements 
         RecyclerView recycler = (RecyclerView) findViewById(R.id.recycler);
         mLayouManager = new LinearLayoutManager(FireBaseChatActivity.this, LinearLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(mLayouManager);
-        mAdapter = new MainActivity.ChatAdapter();
+        mAdapter = new ChatAdapter();
         recycler.setAdapter(mAdapter);
     }
 
