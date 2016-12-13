@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">FireBase - Pizza Party</string>
-
-    <string name="title_activity_chat">Firebase Pizza Party CHAT</string>
-    <string name="action_settings">settings</string>
-
-</resources>
